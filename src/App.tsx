@@ -1,7 +1,21 @@
-import React from 'react'
+import React from "react"
+
+import Header from "./components/Header"
+import CurrenciesToDate from "./pages/CurrenciesToDate"
 
 function App() {
-  return <div className='App'>Hello World!</div>
+  return (
+    <>
+      <Header />
+      <CurrenciesToDate />
+    </>
+  )
+
+  // <ContentWrapper>
+  //    CurrenciesToDate
+  //    CurrencyDynamic
+  //    Converter
+  // </ContentWrapper>
 }
 
 export default App
