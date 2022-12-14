@@ -9,6 +9,9 @@ import {
   TableHeader,
   Caption,
   DateInputsContainer,
+  TableHead,
+  TableBody,
+  TableFooter,
 } from "./styles"
 
 type currencyType = {
@@ -40,26 +43,35 @@ const CurrenciesToDate = () => {
         console.error(`Error: ${error}`)
       })
   }
+
   return (
     <Wrapper>
       <CurrenciesTable>
         <Caption>КУРС ВАЛЮТ НА СЕГОДНЯ</Caption>
-        <TableRow>
-          <TableHeader>Название</TableHeader>
-          <TableHeader>Курс</TableHeader>
-          <TableHeader>Код</TableHeader>
-          <TableHeader>Единиц</TableHeader>
-        </TableRow>
-        {currenciesData.map((item) => {
-          return (
-            <TableRow key={item.Cur_ID}>
-              <Cell>{item.Cur_Name}</Cell>
-              <Cell>{item.Cur_OfficialRate}</Cell>
-              <Cell>{item.Cur_Abbreviation}</Cell>
-              <Cell>{item.Cur_Scale}</Cell>
-            </TableRow>
-          )
-        })}
+        <TableHead>
+          <TableRow>
+            <TableHeader>Название</TableHeader>
+            <TableHeader>Курс</TableHeader>
+            <TableHeader>Код</TableHeader>
+            <TableHeader>Единиц</TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currenciesData.map((item) => {
+            return (
+              <TableRow key={item.Cur_ID}>
+                <Cell>{item.Cur_Name}</Cell>
+                <Cell>{item.Cur_OfficialRate}</Cell>
+                <Cell>{item.Cur_Abbreviation}</Cell>
+                <Cell>{item.Cur_Scale}</Cell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+        <TableFooter>
+          Данные взяты с официального сайта{" "}
+          <a href='https://www.nbrb.by/apihelp/exrates'>nbrb.by</a>
+        </TableFooter>
       </CurrenciesTable>
       <DateInputsContainer>smth</DateInputsContainer>
     </Wrapper>

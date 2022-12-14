@@ -11,14 +11,18 @@ export const Wrapper = styled.section`
   flex-direction: row;
 `
 // table styles======================================
+export const TableHead = styled.thead``
+export const TableBody = styled.tbody``
+export const TableFooter = styled.tfoot``
+
+export const CurrenciesTable = styled.table`
+  display: block;
+  border-collapse: collapse;
+`
 export const Caption = styled.caption`
   text-align: left;
   color: #000;
   font-size: 16px;
-`
-export const CurrenciesTable = styled.table`
-  display: block;
-  border-collapse: collapse;
 `
 export const TableRow = styled.tr`
   border-bottom: 0.5px solid black;
@@ -40,3 +44,4 @@ export const DateInputsContainer = styled.div`
   margin: 0 auto;
   height: auto;
 `
+export const DayInput = styled.input``
