@@ -7,7 +7,7 @@ function App() {
     <>
       <Header />
 
-      <div id='ContentWrapper'>
+      <div id='content_wrapper'>
         <Outlet />
       </div>
     </>

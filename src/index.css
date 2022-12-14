@@ -19,3 +19,8 @@ code {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
+
+#content_wrapper {
+  padding-top: 20px;
+  padding-bottom: 50px;
+}

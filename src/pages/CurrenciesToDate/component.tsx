@@ -1,7 +1,15 @@
 import React from "react"
 import axios from "axios"
 
-import { Wrapper, CurrencyItem } from "./styles"
+import {
+  Wrapper,
+  CurrenciesTable,
+  TableRow,
+  Cell,
+  TableHeader,
+  Caption,
+  DateInputsContainer,
+} from "./styles"
 
 type currencyType = {
   Cur_ID: number
@@ -34,9 +42,26 @@ const CurrenciesToDate = () => {
   }
   return (
     <Wrapper>
-      {currenciesData.map((item) => {
-        return <CurrencyItem key={item.Cur_ID}>{item.Cur_Name}</CurrencyItem>
-      })}
+      <CurrenciesTable>
+        <Caption>КУРС ВАЛЮТ НА СЕГОДНЯ</Caption>
+        <TableRow>
+          <TableHeader>Название</TableHeader>
+          <TableHeader>Курс</TableHeader>
+          <TableHeader>Код</TableHeader>
+          <TableHeader>Единиц</TableHeader>
+        </TableRow>
+        {currenciesData.map((item) => {
+          return (
+            <TableRow key={item.Cur_ID}>
+              <Cell>{item.Cur_Name}</Cell>
+              <Cell>{item.Cur_OfficialRate}</Cell>
+              <Cell>{item.Cur_Abbreviation}</Cell>
+              <Cell>{item.Cur_Scale}</Cell>
+            </TableRow>
+          )
+        })}
+      </CurrenciesTable>
+      <DateInputsContainer>smth</DateInputsContainer>
     </Wrapper>
   )
 }
