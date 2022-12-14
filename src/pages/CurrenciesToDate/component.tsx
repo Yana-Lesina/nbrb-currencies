@@ -12,6 +12,11 @@ import {
   TableHead,
   TableBody,
   TableFooter,
+  Label,
+  Select,
+  Input,
+  InputBlock,
+  OptionItem,
 } from "./styles"
 
 type currencyType = {
@@ -77,7 +82,43 @@ const CurrenciesToDate = () => {
         </TableFooter>
       </CurrenciesTable>
 
-      <DateInputsContainer>smth</DateInputsContainer>
+      <DateInputsContainer>
+        <InputBlock>
+          <Label htmlFor='day'>День</Label>
+          <Input id='day' type='text'></Input>
+        </InputBlock>
+        <InputBlock>
+          <Label htmlFor='month'>Месяц</Label>
+          <Select id='month'>
+            {[
+              "Январь",
+              "Февраль",
+              "Март",
+              "Апрель",
+              "Май",
+              "Июнь",
+              "Июль",
+              "Август",
+              "Сентябрь",
+              "Октябрь",
+              "Ноябрь",
+              "Декабрь",
+            ].map((month, id) => (
+              <OptionItem key={id} value={month.toLowerCase()}>
+                {month}
+              </OptionItem>
+            ))}
+          </Select>
+        </InputBlock>
+        <InputBlock>
+          <Label htmlFor='year'>Год</Label>
+          <Select id='year'>
+            <OptionItem>2022</OptionItem>
+            <OptionItem>2021</OptionItem>
+            <OptionItem>2020</OptionItem>
+          </Select>
+        </InputBlock>
+      </DateInputsContainer>
     </Wrapper>
   )
 }

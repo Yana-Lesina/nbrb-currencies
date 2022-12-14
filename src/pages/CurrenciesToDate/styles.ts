@@ -11,14 +11,15 @@ export const Wrapper = styled.section`
   flex-direction: row;
 `
 // table styles======================================
+export const CurrenciesTable = styled.table`
+  display: block;
+  border-collapse: collapse;
+  margin-right: 20px;
+`
 export const TableHead = styled.thead``
 export const TableBody = styled.tbody``
 export const TableFooter = styled.tfoot``
 
-export const CurrenciesTable = styled.table`
-  display: block;
-  border-collapse: collapse;
-`
 export const Caption = styled.caption`
   text-align: left;
   color: #000;
@@ -40,7 +41,15 @@ export const TableHeader = styled.th`
 export const Cell = styled.td``
 // inputs styles======================================
 export const DateInputsContainer = styled.div`
+  width: 40%;
   border: 1px solid #000;
   margin: 0 auto;
   height: auto;
 `
+export const InputBlock = styled.div``
+export const Input = styled.input`
+  width: 30px;
+`
+export const Label = styled.label``
+export const Select = styled.select``
+export const OptionItem = styled.option``
