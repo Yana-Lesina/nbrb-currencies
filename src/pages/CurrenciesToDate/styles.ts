@@ -44,4 +44,3 @@ export const DateInputsContainer = styled.div`
   margin: 0 auto;
   height: auto;
 `
-export const DayInput = styled.input``

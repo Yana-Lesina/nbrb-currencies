@@ -36,7 +36,6 @@ const CurrenciesToDate = () => {
       .get(`${url}//rates?periodicity=0`)
       .then((response) => {
         const data = response.data
-        console.log("data: ", data)
         setCurrenciesData(data)
       })
       .catch((error) => {
@@ -69,10 +68,15 @@ const CurrenciesToDate = () => {
           })}
         </TableBody>
         <TableFooter>
-          Данные взяты с официального сайта{" "}
-          <a href='https://www.nbrb.by/apihelp/exrates'>nbrb.by</a>
+          <TableRow>
+            <Cell>
+              Данные взяты с официального сайта{" "}
+              <a href='https://www.nbrb.by/apihelp/exrates'>nbrb.by</a>
+            </Cell>
+          </TableRow>
         </TableFooter>
       </CurrenciesTable>
+
       <DateInputsContainer>smth</DateInputsContainer>
     </Wrapper>
   )
