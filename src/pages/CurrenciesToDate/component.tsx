@@ -17,6 +17,8 @@ import {
   Input,
   InputBlock,
   OptionItem,
+  ActionButton,
+  ErrorHandler,
 } from "./styles"
 
 type currencyType = {
@@ -29,16 +31,21 @@ type currencyType = {
 }
 
 const CurrenciesToDate = () => {
-  const url = "https://www.nbrb.by/api/exrates" // /rates?periodicity=0"
+  const url = "https://www.nbrb.by/api/exrates"
   const [currenciesData, setCurrenciesData] = React.useState<currencyType[]>([])
+  const [targetDate, setTargetDate] = React.useState<Date>(new Date())
+  const [day, setDay] = React.useState("")
+  const [month, setMonth] = React.useState("")
+  const [year, setYear] = React.useState("")
+  const [errorMessage, setErrorMessage] = React.useState("")
 
   React.useEffect(() => {
-    getAllCurrencies()
+    getAllCurrencies(`${url}//rates?periodicity=0`)
   }, [])
 
-  const getAllCurrencies = () => {
+  const getAllCurrencies = (requestPath: string) => {
     axios
-      .get(`${url}//rates?periodicity=0`)
+      .get(requestPath)
       .then((response) => {
         const data = response.data
         setCurrenciesData(data)
@@ -51,7 +58,7 @@ const CurrenciesToDate = () => {
   return (
     <Wrapper>
       <CurrenciesTable>
-        <Caption>КУРС ВАЛЮТ НА СЕГОДНЯ</Caption>
+        <Caption>КУРС ВАЛЮТ НА {targetDate?.toLocaleDateString().replace(/\//g, ".")}</Caption>
         <TableHead>
           <TableRow>
             <TableHeader>Название</TableHeader>
@@ -85,12 +92,18 @@ const CurrenciesToDate = () => {
       <DateInputsContainer>
         <InputBlock>
           <Label htmlFor='day'>День</Label>
-          <Input id='day' type='text'></Input>
+          <Input id='day' type='text' onChange={(event: any) => setDay(event.target.value)}></Input>
         </InputBlock>
         <InputBlock>
           <Label htmlFor='month'>Месяц</Label>
-          <Select id='month'>
+          <Select
+            id='month'
+            onChange={(event: any) => {
+              setMonth(event.target.selectedIndex)
+            }}
+          >
             {[
+              "",
               "Январь",
               "Февраль",
               "Март",
@@ -112,12 +125,31 @@ const CurrenciesToDate = () => {
         </InputBlock>
         <InputBlock>
           <Label htmlFor='year'>Год</Label>
-          <Select id='year'>
+          <Select id='year' onChange={(event: any) => setYear(event.target.value)}>
+            <OptionItem></OptionItem>
             <OptionItem>2022</OptionItem>
             <OptionItem>2021</OptionItem>
             <OptionItem>2020</OptionItem>
           </Select>
         </InputBlock>
+        <ActionButton
+          onClick={() => {
+            const targetDateAttempt = new Date(+year, +month - 1, +day)
+            // +month - 1 потому, что отсчёт в объекте Date начинается с нуля
+            // => нужно убрать из счёта дефолтный "пустой" option
+
+            if (targetDateAttempt.toLocaleDateString() === `${month}/${day}/${year}`) {
+              getAllCurrencies(`${url}/rates?ondate=${year}-${month}-${day}&periodicity=0`)
+              setTargetDate(targetDateAttempt)
+              setErrorMessage("")
+            } else {
+              setErrorMessage("Неверный ввод даты")
+            }
+          }}
+        >
+          Узнать курс на дату
+        </ActionButton>
+        <ErrorHandler>{errorMessage}</ErrorHandler>
       </DateInputsContainer>
     </Wrapper>
   )

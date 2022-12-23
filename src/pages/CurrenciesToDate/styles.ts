@@ -53,3 +53,11 @@ export const Input = styled.input`
 export const Label = styled.label``
 export const Select = styled.select``
 export const OptionItem = styled.option``
+
+export const ActionButton = styled.button`
+  cursor: pointer;
+`
+
+export const ErrorHandler = styled.div`
+  color: red;
+`
