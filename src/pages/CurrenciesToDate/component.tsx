@@ -14,7 +14,7 @@ import {
   TableFooter,
   Label,
   Select,
-  Input,
+  DayInput,
   InputBlock,
   OptionItem,
   ActionButton,
@@ -32,13 +32,37 @@ type currencyType = {
 
 const CurrenciesToDate = () => {
   const url = "https://www.nbrb.by/api/exrates"
+  const [errorMessage, setErrorMessage] = React.useState("")
+
   const [currenciesData, setCurrenciesData] = React.useState<currencyType[]>([])
+
   const [targetDate, setTargetDate] = React.useState<Date>(new Date())
   const [day, setDay] = React.useState("")
   const [month, setMonth] = React.useState("")
   const [year, setYear] = React.useState("")
-  const [errorMessage, setErrorMessage] = React.useState("")
 
+  const monthsArray = [
+    "",
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
+  ]
+  // создание массива лет, доступных для нахождения курса
+  const startYear = 2008 // просто выбрала искать курс, начиная с 2008-го
+  const yearsArray = Array(new Date().getFullYear() - startYear + 1)
+    .fill(0)
+    .map((_, id) => startYear + id)
+
+  // functionality============================================
   React.useEffect(() => {
     getAllCurrencies(`${url}//rates?periodicity=0`)
   }, [])
@@ -55,10 +79,31 @@ const CurrenciesToDate = () => {
       })
   }
 
+  const handleClick = () => {
+    const targetDateAttempt = new Date(+year, +month - 1, +day)
+    // +month - 1 потому, что отсчёт в объекте Date начинается с нуля
+    // => нужно убрать из счёта дефолтный "пустой" option
+
+    if (
+      `${targetDateAttempt.getDate()}.${
+        targetDateAttempt.getMonth() + 1
+      }.${targetDateAttempt.getFullYear()}` === `${day}.${month}.${year}`
+    ) {
+      getAllCurrencies(`${url}/rates?ondate=${year}-${month}-${day}&periodicity=0`)
+      setTargetDate(targetDateAttempt)
+      setErrorMessage("")
+    } else {
+      setErrorMessage("Неверный ввод даты")
+    }
+  }
+
   return (
     <Wrapper>
       <CurrenciesTable>
-        <Caption>КУРС ВАЛЮТ НА {targetDate?.toLocaleDateString().replace(/\//g, ".")}</Caption>
+        <Caption>
+          КУРС ВАЛЮТ НА{" "}
+          {`${targetDate.getDate()}.${targetDate.getMonth() + 1}.${targetDate.getFullYear()}`}
+        </Caption>
         <TableHead>
           <TableRow>
             <TableHeader>Название</TableHeader>
@@ -92,7 +137,11 @@ const CurrenciesToDate = () => {
       <DateInputsContainer>
         <InputBlock>
           <Label htmlFor='day'>День</Label>
-          <Input id='day' type='text' onChange={(event: any) => setDay(event.target.value)}></Input>
+          <DayInput
+            id='day'
+            type='text'
+            onChange={(event: any) => setDay(event.target.value)}
+          ></DayInput>
         </InputBlock>
         <InputBlock>
           <Label htmlFor='month'>Месяц</Label>
@@ -102,21 +151,7 @@ const CurrenciesToDate = () => {
               setMonth(event.target.selectedIndex)
             }}
           >
-            {[
-              "",
-              "Январь",
-              "Февраль",
-              "Март",
-              "Апрель",
-              "Май",
-              "Июнь",
-              "Июль",
-              "Август",
-              "Сентябрь",
-              "Октябрь",
-              "Ноябрь",
-              "Декабрь",
-            ].map((month, id) => (
+            {monthsArray.map((month, id) => (
               <OptionItem key={id} value={month.toLowerCase()}>
                 {month}
               </OptionItem>
@@ -127,28 +162,14 @@ const CurrenciesToDate = () => {
           <Label htmlFor='year'>Год</Label>
           <Select id='year' onChange={(event: any) => setYear(event.target.value)}>
             <OptionItem></OptionItem>
-            <OptionItem>2022</OptionItem>
-            <OptionItem>2021</OptionItem>
-            <OptionItem>2020</OptionItem>
+            {yearsArray
+              .map((item) => {
+                return <OptionItem key={item}>{item}</OptionItem>
+              })
+              .reverse()}
           </Select>
         </InputBlock>
-        <ActionButton
-          onClick={() => {
-            const targetDateAttempt = new Date(+year, +month - 1, +day)
-            // +month - 1 потому, что отсчёт в объекте Date начинается с нуля
-            // => нужно убрать из счёта дефолтный "пустой" option
-
-            if (targetDateAttempt.toLocaleDateString() === `${month}/${day}/${year}`) {
-              getAllCurrencies(`${url}/rates?ondate=${year}-${month}-${day}&periodicity=0`)
-              setTargetDate(targetDateAttempt)
-              setErrorMessage("")
-            } else {
-              setErrorMessage("Неверный ввод даты")
-            }
-          }}
-        >
-          Узнать курс на дату
-        </ActionButton>
+        <ActionButton onClick={handleClick}>Узнать курс на дату</ActionButton>
         <ErrorHandler>{errorMessage}</ErrorHandler>
       </DateInputsContainer>
     </Wrapper>
