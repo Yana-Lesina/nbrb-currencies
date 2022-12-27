@@ -24,36 +24,16 @@ import {
 import { getCurrenciesToDate } from "../../axiosFuncs"
 
 const CurrenciesToDate = () => {
-  const url = "https://www.nbrb.by/api/exrates"
-  const [errorMessage, setErrorMessage] = React.useState("")
-
+  const url = useSelector((state: RootState) => state.requestURL.value)
   const currenciesData = useSelector((state: RootState) => state.currencies.valueToDate)
+  const monthsArray = useSelector((state: RootState) => state.dateParams.months)
+  const yearsArray = useSelector((state: RootState) => state.dateParams.years)
 
+  const [errorMessage, setErrorMessage] = React.useState("")
   const [targetDate, setTargetDate] = React.useState<Date>(new Date())
   const [day, setDay] = React.useState("")
   const [month, setMonth] = React.useState("")
   const [year, setYear] = React.useState("")
-
-  const monthsArray = [
-    "",
-    "Январь",
-    "Февраль",
-    "Март",
-    "Апрель",
-    "Май",
-    "Июнь",
-    "Июль",
-    "Август",
-    "Сентябрь",
-    "Октябрь",
-    "Ноябрь",
-    "Декабрь",
-  ]
-  // создание массива лет, доступных для нахождения курса
-  const startYear = 2008 // просто выбрала искать курс, начиная с 2008-го
-  const yearsArray = Array(new Date().getFullYear() - startYear + 1)
-    .fill(0)
-    .map((_, id) => startYear + id)
 
   // functionality============================================
   React.useEffect(() => {
