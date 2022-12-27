@@ -6,3 +6,4 @@ export const Wrapper = styled.div`
   width: 500px;
   text-align: center;
 `
+export const Header2 = styled.h2``

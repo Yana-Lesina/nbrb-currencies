@@ -2,6 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import "./index.css"
 import App from "./App"
+
+import { store } from "./redux-store/store"
+import { Provider } from "react-redux"
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import CurrencyDynamic from "./pages/CurrencyDynamic"
 import CurrenciesToDate from "./pages/CurrenciesToDate"
@@ -37,6 +41,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 )

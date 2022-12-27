@@ -1,5 +1,6 @@
 import React from "react"
-import axios from "axios"
+import { RootState } from "../../redux-store/store"
+import { useSelector } from "react-redux"
 
 import {
   Wrapper,
@@ -20,21 +21,13 @@ import {
   ActionButton,
   ErrorHandler,
 } from "./styles"
-
-type currencyType = {
-  Cur_ID: number
-  Date: string
-  Cur_Abbreviation: string
-  Cur_Scale: number
-  Cur_Name: string
-  Cur_OfficialRate: number
-}
+import { getCurrenciesToDate } from "../../axiosFuncs"
 
 const CurrenciesToDate = () => {
   const url = "https://www.nbrb.by/api/exrates"
   const [errorMessage, setErrorMessage] = React.useState("")
 
-  const [currenciesData, setCurrenciesData] = React.useState<currencyType[]>([])
+  const currenciesData = useSelector((state: RootState) => state.currencies.valueToDate)
 
   const [targetDate, setTargetDate] = React.useState<Date>(new Date())
   const [day, setDay] = React.useState("")
@@ -64,20 +57,8 @@ const CurrenciesToDate = () => {
 
   // functionality============================================
   React.useEffect(() => {
-    getAllCurrencies(`${url}//rates?periodicity=0`)
+    getCurrenciesToDate(`${url}//rates?periodicity=0`)
   }, [])
-
-  const getAllCurrencies = (requestPath: string) => {
-    axios
-      .get(requestPath)
-      .then((response) => {
-        const data = response.data
-        setCurrenciesData(data)
-      })
-      .catch((error) => {
-        console.error(`Error: ${error}`)
-      })
-  }
 
   const handleClick = () => {
     const targetDateAttempt = new Date(+year, +month - 1, +day)
@@ -89,7 +70,7 @@ const CurrenciesToDate = () => {
         targetDateAttempt.getMonth() + 1
       }.${targetDateAttempt.getFullYear()}` === `${day}.${month}.${year}`
     ) {
-      getAllCurrencies(`${url}/rates?ondate=${year}-${month}-${day}&periodicity=0`)
+      getCurrenciesToDate(`${url}/rates?ondate=${year}-${month}-${day}&periodicity=0`)
       setTargetDate(targetDateAttempt)
       setErrorMessage("")
     } else {
