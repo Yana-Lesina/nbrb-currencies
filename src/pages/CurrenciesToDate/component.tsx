@@ -18,10 +18,11 @@ import {
   DayInput,
   InputBlock,
   OptionItem,
-  ActionButton,
   ErrorHandler,
+  ActionButton,
 } from "./styles"
 import { getCurrenciesToDate } from "../../axiosFuncs"
+import { setZero } from "../../helpers/stringFuncs"
 
 const CurrenciesToDate = () => {
   const url = useSelector((state: RootState) => state.requestURL.value)
@@ -63,13 +64,15 @@ const CurrenciesToDate = () => {
       <CurrenciesTable>
         <Caption>
           КУРС ВАЛЮТ НА{" "}
-          {`${targetDate.getDate()}.${targetDate.getMonth() + 1}.${targetDate.getFullYear()}`}
+          {`${setZero(String(targetDate.getDate()))}.${setZero(
+            String(targetDate.getMonth() + 1),
+          )}.${targetDate.getFullYear()}`}
         </Caption>
         <TableHead>
           <TableRow>
+            <TableHeader>Код</TableHeader>
             <TableHeader>Название</TableHeader>
             <TableHeader>Курс</TableHeader>
-            <TableHeader>Код</TableHeader>
             <TableHeader>Единиц</TableHeader>
           </TableRow>
         </TableHead>
@@ -77,9 +80,9 @@ const CurrenciesToDate = () => {
           {currenciesData.map((item) => {
             return (
               <TableRow key={item.Cur_ID}>
+                <Cell>{item.Cur_Abbreviation}</Cell>
                 <Cell>{item.Cur_Name}</Cell>
                 <Cell>{item.Cur_OfficialRate}</Cell>
-                <Cell>{item.Cur_Abbreviation}</Cell>
                 <Cell>{item.Cur_Scale}</Cell>
               </TableRow>
             )

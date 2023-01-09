@@ -6,7 +6,6 @@ const Header = () => {
 
   function handleClick(event: any) {
     event.preventDefault()
-    console.log("event.target.id - ", event.target.id)
     navigate(event.target.id === "main" ? "/" : `/${event.target.id}`)
   }
 

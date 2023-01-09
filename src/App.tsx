@@ -12,12 +12,6 @@ function App() {
       </div>
     </>
   )
-
-  // <ContentWrapper>
-  //    CurrenciesToDate
-  //    CurrencyDynamic
-  //    Converter
-  // </ContentWrapper>
 }
 
 export default App

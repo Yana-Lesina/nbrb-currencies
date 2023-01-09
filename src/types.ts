@@ -11,3 +11,11 @@ export type valueDynamicType = {
   Date: string
   Cur_OfficialRate: number
 }
+
+export type TCurrencyParams = {
+  amountValue: string
+  optionValue: {
+    CurID: number
+    CurAbbreviation: string
+  }
+}
