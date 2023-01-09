@@ -33,7 +33,7 @@ const CurrenciesToDate = () => {
   const [errorMessage, setErrorMessage] = React.useState("")
   const [targetDate, setTargetDate] = React.useState<Date>(new Date())
   const [day, setDay] = React.useState("")
-  const [month, setMonth] = React.useState("")
+  const [month, setMonth] = React.useState<string>("")
   const [year, setYear] = React.useState("")
 
   // functionality============================================
@@ -104,15 +104,15 @@ const CurrenciesToDate = () => {
           <DayInput
             id='day'
             type='text'
-            onChange={(event: any) => setDay(event.target.value)}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDay(event.target.value)}
           ></DayInput>
         </InputBlock>
         <InputBlock>
           <Label htmlFor='month'>Месяц</Label>
           <Select
             id='month'
-            onChange={(event: any) => {
-              setMonth(event.target.selectedIndex)
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+              setMonth(String(event.target.selectedIndex))
             }}
           >
             {monthsArray.map((month, id) => (
@@ -124,7 +124,10 @@ const CurrenciesToDate = () => {
         </InputBlock>
         <InputBlock>
           <Label htmlFor='year'>Год</Label>
-          <Select id='year' onChange={(event: any) => setYear(event.target.value)}>
+          <Select
+            id='year'
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setYear(event.target.value)}
+          >
             <OptionItem></OptionItem>
             {yearsArray
               .map((item) => {

@@ -1,13 +1,13 @@
 import { HeaderWrapper, HeaderList, HeaderItem, HeaderLink } from "./styles"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Header = () => {
   const navigate = useNavigate()
 
-  function handleClick(event: any) {
-    event.preventDefault()
-    navigate(event.target.id === "main" ? "/" : `/${event.target.id}`)
-  }
+  // function handleClick(event: any) {
+  //   event.preventDefault()
+  //   navigate(event.target.id === "main" ? "/" : `/${event.target.id}`)
+  // }
 
   return (
     <HeaderWrapper>

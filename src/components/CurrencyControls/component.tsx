@@ -28,12 +28,12 @@ const CurrencyControls: React.FC<TCurrencyControls> = ({
       <Input
         disabled={componentAttrs.disabled ? true : false}
         value={inputValue}
-        onChange={(e: any) => handleInputChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e.target.value)}
         placeholder={"0"}
       />
       <Select
         value={selectValue}
-        onChange={(e: any) => {
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           return handleDropdownChange({
             CurID: e.target.options[e.target.selectedIndex].id,
             CurAbbreviation: e.target.value,
